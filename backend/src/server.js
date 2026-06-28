@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import matchingRoutes from "./routes/matching.js";
 import safetyRoutes from "./routes/safety.js";
+import digilockerRoutes from "./routes/digilocker.js";
 import { initSockets } from "./sockets/messaging.js";
 
 dotenv.config();
@@ -34,6 +35,7 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/match", matchingRoutes);
 app.use("/safety", safetyRoutes);
+app.use("/auth", digilockerRoutes);
 
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 

@@ -2,10 +2,13 @@ import jwt from "jsonwebtoken";
 
 export function requireAuth(req, res, next) {
   const header = req.headers.authorization;
-  if (!header) return res.status(401).json({ error: "no_token" });
+  const queryToken = req.query.token;
+  const rawToken = header ? header.replace("Bearer ", "") : queryToken;
+
+  if (!rawToken) return res.status(401).json({ error: "no_token" });
 
   try {
-    const payload = jwt.verify(header.replace("Bearer ", ""), process.env.JWT_SECRET);
+    const payload = jwt.verify(rawToken, process.env.JWT_SECRET);
     req.user = payload;
     next();
   } catch {
